@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Personal Expenses',
+      title: 'Expenses',
       theme: ThemeData(
         textTheme: ThemeData.light().textTheme.copyWith(
                 //deafult ThemeData.light() object ko textTheme member lai copyWith user-defined params, copyWith is a TextTheme returning function
