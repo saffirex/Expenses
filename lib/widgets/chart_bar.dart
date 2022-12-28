@@ -9,21 +9,23 @@ class ChartBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return LayoutBuilder(builder: (context, constraints){
+      return Column(
       children: [
         Container(
+          height: (constraints.maxHeight) *0.095, //notice all these multipliers add up to 1.0, maxheight is the height of the container defined in main.dart file and here we are distributing it to the children
           child: FittedBox(
             child: Text(
               'Rs.${spendingAmount.toStringAsFixed(0)}',
             ),
           ),
-          height:13,
+          
         ),
-        const SizedBox(
-          height: 4,
+        SizedBox(
+          height: (constraints.maxHeight) *0.04,
         ),
         Container(
-          height: 80,
+          height: (constraints.maxHeight) *0.7,
           width: 10,
           child: Stack(children: [
             Container(
@@ -42,11 +44,16 @@ class ChartBar extends StatelessWidget {
                 ))
           ]),
         ),
-        const SizedBox(
-          height: 4,
+        SizedBox(
+          height: (constraints.maxHeight) *0.055,
         ),
-        Text(label)
+        Container(
+          height: (constraints.maxHeight) *0.1,
+          child: FittedBox(child: Text(label)))
       ],
     );
+    }
+    );
+    
   }
 }

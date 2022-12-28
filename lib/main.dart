@@ -2,11 +2,24 @@
 
 import 'package:expenses/widgets/new_transactions.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
 import './widgets/transaction_list.dart';
 import './models/transactions.dart';
 import './widgets/chart.dart';
 
-void main() => runApp(const MyApp());
+
+void main() {
+  
+  //Disallows changing orientation to Landscape
+  /*  
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+*/
+
+  return runApp(const MyApp());
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -104,16 +117,18 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final appBar = AppBar(
+      title: const Text('Expenses Tracker'),
+      actions: [
+        //the plus button at the top right
+        IconButton(
+            onPressed: () => _startAddNewTransaction(context),
+            icon: const Icon(Icons.add))
+      ],
+    );
+
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Expenses Tracker'),
-        actions: [
-          //the plus button at the top right
-          IconButton(
-              onPressed: () => _startAddNewTransaction(context),
-              icon: const Icon(Icons.add))
-        ],
-      ),
+      appBar: appBar,
       body: SafeArea(
         //handles notches and all
         child: SingleChildScrollView(
@@ -131,9 +146,21 @@ class _MyHomePageState extends State<MyHomePage> {
               //       height: 300,
               //       child: const Text('CHART')),
               // ),
-              Chart(recentTransactions),
-              TransactionList(_userTransactions,
-                  _deleteTransaction) //constructing a custom widget object from transaction_list by passing the list of transactions
+              Container(
+                //the size of screen minus height of appbar minus height of status bar ko 40%
+                height: (MediaQuery.of(context).size.height -
+                        appBar.preferredSize.height -
+                        MediaQuery.of(context).padding.top) *
+                    0.3,
+                child: Chart(recentTransactions),
+              ),
+              Container(
+                height: (MediaQuery.of(context).size.height -
+                        appBar.preferredSize.height -
+                        MediaQuery.of(context).padding.top) *
+                    0.7,
+                child: TransactionList(_userTransactions, _deleteTransaction),
+              ) //constructing a custom widget object from transaction_list by passing the list of transactions
             ],
           ),
         ),
