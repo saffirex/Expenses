@@ -55,50 +55,52 @@ class _NewTransactionState extends State<NewTransaction> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Container(
-        padding: const EdgeInsets.all(10.0),
-        child: Column(
-          children: [
-            TextField(
-              decoration: const InputDecoration(labelText: 'Title'),
-              controller: titleController,
-              // onChanged: (instantaneousEnteredValue) =>
-              //     inputTitle = instantaneousEnteredValue,
-            ),
-            TextField(
-              // onChanged: (instantaneousEnteredValue) =>
-              //     inputAmount = instantaneousEnteredValue,
-              decoration: const InputDecoration(labelText: 'Amount'),
-              controller: amountController,
-              keyboardType: TextInputType.number,
-              onSubmitted: (_) => _submitData(), //seethis[1]
-            ),
-            Container(
-              height: 70,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Expanded(
-                    child: Text(_selectedDate == null
-                        ? 'Please Pick a Date'
-                        : 'Date Picked: ${DateFormat.yMd().format(_selectedDate!)}'),
-                  ),
-                  ElevatedButton(
-                    child: Text('Choose Date'),
-                    onPressed: _datePicker,
-                  )
-                ],
+    return SingleChildScrollView(
+      child: Card(
+        child: Container(
+          padding: EdgeInsets.only( top: 10, left: 10, right: 10, bottom: MediaQuery.of(context).viewInsets.bottom +30),
+          child: Column(
+            children: [
+              TextField(
+                decoration: const InputDecoration(labelText: 'Title'),
+                controller: titleController,
+                // onChanged: (instantaneousEnteredValue) =>
+                //     inputTitle = instantaneousEnteredValue,
               ),
-            ),
-            ElevatedButton(
-                onPressed: _submitData, //seethis[2]
-                child: Container(
-                    margin: const EdgeInsets.all(10),
-                    padding:
-                        const EdgeInsets.symmetric(vertical: 5, horizontal: 80),
-                    child: const Text('Submit'))),
-          ],
+              TextField(
+                // onChanged: (instantaneousEnteredValue) =>
+                //     inputAmount = instantaneousEnteredValue,
+                decoration: const InputDecoration(labelText: 'Amount'),
+                controller: amountController,
+                keyboardType: TextInputType.number,
+                onSubmitted: (_) => _submitData(), //seethis[1]
+              ),
+              Container(
+                height: 70,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Expanded(
+                      child: Text(_selectedDate == null
+                          ? 'Please Pick a Date'
+                          : 'Date Picked: ${DateFormat.yMd().format(_selectedDate!)}'),
+                    ),
+                    ElevatedButton(
+                      child: Text('Choose Date'),
+                      onPressed: _datePicker,
+                    )
+                  ],
+                ),
+              ),
+              ElevatedButton(
+                  onPressed: _submitData, //seethis[2]
+                  child: Container(
+                      margin: const EdgeInsets.all(10),
+                      padding:
+                          const EdgeInsets.symmetric(vertical: 5, horizontal: 80),
+                      child: const Text('Submit'))),
+            ],
+          ),
         ),
       ),
     );

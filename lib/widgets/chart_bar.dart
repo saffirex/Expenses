@@ -13,10 +13,10 @@ class ChartBar extends StatelessWidget {
       return Column(
       children: [
         Container(
-          height: (constraints.maxHeight) *0.095, //notice all these multipliers add up to 1.0, maxheight is the height of the container defined in main.dart file and here we are distributing it to the children
+          height: (constraints.maxHeight) *0.08, //notice all these multipliers add up to 1.0, maxheight is the height of the container defined in main.dart file and here we are distributing it to the children
           child: FittedBox(
             child: Text(
-              'Rs.${spendingAmount.toStringAsFixed(0)}',
+              'R.${spendingAmount.toStringAsFixed(0)}',
             ),
           ),
           

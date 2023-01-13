@@ -2,15 +2,11 @@
 
 import 'package:expenses/widgets/new_transactions.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-
 import './widgets/transaction_list.dart';
 import './models/transactions.dart';
 import './widgets/chart.dart';
 
-
 void main() {
-  
   //Disallows changing orientation to Landscape
   /*  
   WidgetsFlutterBinding.ensureInitialized();
@@ -102,6 +98,8 @@ class _MyHomePageState extends State<MyHomePage> {
     }).toList();
   }
 
+  bool _showChart = true;
+
   //this is to be triggered onpress of action button
 
   //*****************see this entanglement(1)******************
@@ -117,6 +115,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
+        //better if you create a mediaQuery object beforehand and use it throughout the build method as final mq= MediaQuery.of(context)
     final appBar = AppBar(
       title: const Text('Expenses Tracker'),
       actions: [
@@ -126,6 +127,33 @@ class _MyHomePageState extends State<MyHomePage> {
             icon: const Icon(Icons.add))
       ],
     );
+
+    final txListWidget = Container(
+      height: (MediaQuery.of(context).size.height -
+              appBar.preferredSize.height -
+              MediaQuery.of(context).padding.top) *
+          0.7,
+      child: TransactionList(_userTransactions, _deleteTransaction),
+    );
+
+    final ChartWidget_heightPoint8 = Container(
+      //the size of screen minus height of appbar minus height of status bar ko 40%
+      height: (MediaQuery.of(context).size.height -
+              appBar.preferredSize.height -
+              MediaQuery.of(context).padding.top) *
+          0.8,
+      child: Chart(recentTransactions),
+    );
+
+  final ChartWidget_heightPoint3 =Container(
+      //the size of screen minus height of appbar minus height of status bar ko 40%
+      height: (MediaQuery.of(context).size.height -
+              appBar.preferredSize.height -
+              MediaQuery.of(context).padding.top) *
+          0.3,
+      child: Chart(recentTransactions),
+    );
+
 
     return Scaffold(
       appBar: appBar,
@@ -146,21 +174,33 @@ class _MyHomePageState extends State<MyHomePage> {
               //       height: 300,
               //       child: const Text('CHART')),
               // ),
-              Container(
-                //the size of screen minus height of appbar minus height of status bar ko 40%
-                height: (MediaQuery.of(context).size.height -
-                        appBar.preferredSize.height -
-                        MediaQuery.of(context).padding.top) *
-                    0.3,
-                child: Chart(recentTransactions),
-              ),
-              Container(
-                height: (MediaQuery.of(context).size.height -
-                        appBar.preferredSize.height -
-                        MediaQuery.of(context).padding.top) *
-                    0.7,
-                child: TransactionList(_userTransactions, _deleteTransaction),
-              ) //constructing a custom widget object from transaction_list by passing the list of transactions
+              if (isLandscape) //show switch if in landscape mode
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text('Show chart'),
+                    Switch(
+                      value: _showChart,
+                      onChanged: (valx) {
+                        setState(() {
+                          _showChart = valx;
+                          print("ShowChart value${_showChart}");
+                        });
+                      },
+                    ),
+                  ],
+                ), //row with the switch only
+                if (isLandscape)
+                _showChart
+                  ? ChartWidget_heightPoint8
+                  : txListWidget,
+                if (!isLandscape)
+                  ChartWidget_heightPoint3,
+                if (!isLandscape)
+                txListWidget
+
+
+               //constructing a custom widget object from transaction_list by passing the list of transactions
             ],
           ),
         ),
